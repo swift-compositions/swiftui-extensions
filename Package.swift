@@ -3,14 +3,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "accessory",
+    name: "swiftui-extensions",
     platforms: [.iOS(.v27)],
     products: [
-        .library(name: "Accessory", targets: ["Accessory"]),
+        .library(name: "SwiftUI Extensions", targets: ["SwiftUI Extensions"]),
     ],
     targets: [
-        .target(name: "Accessory", swiftSettings: [.defaultIsolation(MainActor.self)]),
-        .testTarget(name: "Accessory Tests", dependencies: ["Accessory"], swiftSettings: [.defaultIsolation(MainActor.self)]),
+        .target(name: "SwiftUI Extensions", swiftSettings: [.defaultIsolation(MainActor.self)]),
+        .testTarget(name: "SwiftUI Extensions Tests", dependencies: ["SwiftUI Extensions"], swiftSettings: [.defaultIsolation(MainActor.self)]),
     ],
     swiftLanguageModes: [.v6]
 )

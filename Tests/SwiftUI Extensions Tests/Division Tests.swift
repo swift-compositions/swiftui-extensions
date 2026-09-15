@@ -1,4 +1,4 @@
-import Accessory
+import SwiftUI_Extensions
 import SwiftUI
 import Testing
 
