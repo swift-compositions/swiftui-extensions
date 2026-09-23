@@ -25,7 +25,6 @@ private struct FoldPreference: PreferenceKey {
 private struct FoldDetents: ViewModifier {
     var otherwise: PresentationDetent
     @State private var fold: CGFloat?
-    @State private var settling: Task<Void, Never>?
     @State private var selection: PresentationDetent
 
     init(otherwise: PresentationDetent) {
@@ -37,18 +36,13 @@ private struct FoldDetents: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            // A first fold is taken at once, so the sheet moves with the content that brought it. A fold that
-            // moves is taken once it holds still: while the sheet animates, content can report passing sizes,
-            // and a detent set to one of those would start the animation over.
+            // The fold is declared from sizes that do not depend on the sheet's height, so it changes only when
+            // the content in view changes, and is taken as it comes. A preference callback runs outside the
+            // transaction of the change that moved the fold, so this is where the detent's is opened. A passing
+            // value seen here means the source measures something that follows the sheet: fix it there, never by
+            // waiting.
             .onPreferenceChange(FoldPreference.self) { value in
-                MainActor.assumeIsolated {
-                    settling?.cancel()
-                    guard fold != nil, value != nil else { return move(to: value) }
-                    settling = Task {
-                        try? await Task.sleep(for: .milliseconds(120))
-                        if !Task.isCancelled, value != fold { move(to: value) }
-                    }
-                }
+                MainActor.assumeIsolated { move(to: value) }
             }
             .presentationDetents([smaller, .large], selection: $selection)
             .presentationBackgroundInteraction(.enabled(upThrough: smaller))
