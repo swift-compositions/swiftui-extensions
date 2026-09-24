@@ -5,15 +5,18 @@ extension View {
     /// and otherwise at `otherwise`; and at large. The caller derives the fold from its state and from sizes that do
     /// not depend on the sheet's own height, so the sheet cannot chase itself, and the sheet's edge moves in the
     /// transaction of the change that moved the fold. The sheet rests on the smaller detent unless it was drawn to
-    /// large. Interaction with the view behind the sheet is enabled up through the smaller detent.
-    public func presentationDetents(fold: CGFloat?, otherwise: PresentationDetent = .medium) -> some View {
-        modifier(FoldDetents(fold: fold, otherwise: otherwise))
+    /// large. While `typing`, a sheet on the smaller detent offers only that one, so the keyboard carries the sheet at
+    /// its fold rather than drawing it to large. Interaction with the view behind the sheet is enabled up through the
+    /// smaller detent.
+    public func presentationDetents(fold: CGFloat?, otherwise: PresentationDetent = .medium, typing: Bool = false) -> some View {
+        modifier(FoldDetents(fold: fold, otherwise: otherwise, typing: typing))
     }
 }
 
 private struct FoldDetents: ViewModifier {
     let fold: CGFloat?
     let otherwise: PresentationDetent
+    let typing: Bool
     @State private var stand = Stand.smaller
 
     private var smaller: PresentationDetent { fold.map { .height($0.rounded(.up)) } ?? otherwise }
@@ -22,7 +25,7 @@ private struct FoldDetents: ViewModifier {
         // The selection is where the sheet stands, read against the detents offered in the same update, so it is
         // never a detent the sheet no longer offers.
         content
-            .presentationDetents([smaller, .large], selection: $stand[dynamicMember: \.[smaller]])
+            .presentationDetents(typing && stand == .smaller ? [smaller] : [smaller, .large], selection: $stand[dynamicMember: \.[smaller]])
             .presentationBackgroundInteraction(.enabled(upThrough: smaller))
     }
 }
