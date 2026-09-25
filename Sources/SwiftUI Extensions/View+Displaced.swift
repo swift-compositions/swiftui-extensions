@@ -1,11 +1,6 @@
 public import SwiftUI
 
 extension View {
-    /// Keeps the view out of the container's division by padding it into one
-    /// region: past the fold toward `edge` for a vertical division, and into
-    /// the bottom region for a horizontal one. The view keeps its outer frame
-    /// so the padding never feeds back into the measurement. Scrolling content
-    /// should not be displaced; only interactive accessories should.
     public func displaced(toward edge: HorizontalEdge = .trailing) -> some View {
         modifier(Displaced(edge: edge))
     }
@@ -23,13 +18,11 @@ private struct Displaced: ViewModifier {
     }
 
     private var insets: EdgeInsets {
-        guard let division, frame.intersects(division.frame) else { return EdgeInsets() }
-        if division.axis == .horizontal {
-            return EdgeInsets(top: max(0, division.frame.maxY - frame.minY), leading: 0, bottom: 0, trailing: 0)
+        switch (division.flatMap { frame.intersects($0.frame) ? $0 : nil }, edge) {
+        case (nil, _): EdgeInsets()
+        case let (division?, _) where division.axis == .horizontal: EdgeInsets(top: max(0, division.frame.maxY - frame.minY), leading: 0, bottom: 0, trailing: 0)
+        case let (division?, .trailing): EdgeInsets(top: 0, leading: max(0, division.frame.maxX - frame.minX), bottom: 0, trailing: 0)
+        case let (division?, .leading): EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: max(0, frame.maxX - division.frame.minX))
         }
-        if edge == .trailing {
-            return EdgeInsets(top: 0, leading: max(0, division.frame.maxX - frame.minX), bottom: 0, trailing: 0)
-        }
-        return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: max(0, frame.maxX - division.frame.minX))
     }
 }

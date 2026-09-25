@@ -1,8 +1,6 @@
 import Foundation
 public import SwiftUI
 
-/// CommonMark laid out as SwiftUI lays out text: headings, numbered items and paragraphs as blocks, each with its
-/// inline styling. Foundation parses the document; the blocks are its presentation intents in order.
 public struct Markdown: View {
     private let blocks: [Block]
 
@@ -19,10 +17,7 @@ public struct Markdown: View {
                 switch (block.header, block.ordinal) {
                 case (let level?, _): Text(block.text).font(level == 1 ? .title.bold() : .title2.bold()).padding(.top, level == 1 ? 0 : 10)
                 case (_, let ordinal?):
-                    HStack(alignment: .firstTextBaseline, spacing: 8) {
-                        Text("\(ordinal).").monospacedDigit().foregroundStyle(.secondary)
-                        Text(block.text)
-                    }
+                    Numbered("\(ordinal)") { Text(block.text) }
                 case (nil, nil): Text(block.text)
                 }
             }
