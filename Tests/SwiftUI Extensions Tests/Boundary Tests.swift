@@ -19,6 +19,11 @@ import PDFKit
 }
 
 @Suite struct `Paged PDF boundaries` {
+    @Test func `no blocks render one blank page`() throws {
+        let document = try #require(PDFDocument(data: [String]().pdf { Text(verbatim: $0) }))
+        #expect(document.pageCount == 1)
+    }
+
     @Test func `one block renders one page`() throws {
         let document = try #require(PDFDocument(data: ["Memo"].pdf { Text(verbatim: $0) }))
         #expect(document.pageCount == 1)
