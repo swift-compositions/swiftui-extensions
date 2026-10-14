@@ -16,7 +16,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "SwiftUI Extensions", swiftSettings: [.defaultIsolation(MainActor.self)]),
-        .testTarget(name: "SwiftUI Extensions Tests", dependencies: ["SwiftUI Extensions"], swiftSettings: [.defaultIsolation(MainActor.self)]),
+        .testTarget(name: "SwiftUI Extensions Tests", dependencies: [.target(name: "SwiftUI Extensions")], swiftSettings: [.defaultIsolation(MainActor.self)]),
     ],
     swiftLanguageModes: [.v6]
 )
