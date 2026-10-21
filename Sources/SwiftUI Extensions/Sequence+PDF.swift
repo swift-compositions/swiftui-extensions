@@ -9,7 +9,9 @@
 
     extension Sequence {
         public func pdf<Block: View>(
-            page: CGSize = .a4, margin: CGFloat = 56, spacing: CGFloat = 12,
+            page: CGSize = .a4,
+            margin: CGFloat = 56,
+            spacing: CGFloat = 12,
             @ViewBuilder block: @escaping (Element) -> Block
         ) -> Data {
             let elements = Array(self)
@@ -32,7 +34,7 @@
             let data = NSMutableData()
             var box = CGRect(origin: .zero, size: page)
             guard let consumer = CGDataConsumer(data: data as CFMutableData),
-                  let context = unsafe CGContext(consumer: consumer, mediaBox: &box, nil)
+                let context = unsafe CGContext(consumer: consumer, mediaBox: &box, nil)
             else { return Data() }
             for indices in pages.map(\.indices) {
                 ImageRenderer(

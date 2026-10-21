@@ -31,7 +31,7 @@
             renderer.scale = 3
             let data = NSMutableData()
             guard let image = renderer.cgImage,
-                  let destination = CGImageDestinationCreateWithData(data as CFMutableData, UTType.png.identifier as CFString, 1, nil)
+                let destination = CGImageDestinationCreateWithData(data as CFMutableData, UTType.png.identifier as CFString, 1, nil)
             else { throw CocoaError(.fileWriteUnknown) }
             CGImageDestinationAddImage(destination, image, nil)
             guard CGImageDestinationFinalize(destination) else { throw CocoaError(.fileWriteUnknown) }

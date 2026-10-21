@@ -15,15 +15,19 @@
         func body(content: Content) -> some View {
             content
                 .padding(insets)
-                .onGeometryChange(for: CGRect.self) { $0.frame(in: .global) } action: { frame = $0 }
+                .onGeometryChange(for: CGRect.self) {
+                    $0.frame(in: .global)
+                } action: {
+                    frame = $0
+                }
         }
 
         private var insets: EdgeInsets {
             switch (division.flatMap { frame.intersects($0.frame) ? $0 : nil }, edge) {
             case (nil, _): EdgeInsets()
-            case let (division?, _) where division.axis == .horizontal: EdgeInsets(top: max(0, division.frame.maxY - frame.minY), leading: 0, bottom: 0, trailing: 0)
-            case let (division?, .trailing): EdgeInsets(top: 0, leading: max(0, division.frame.maxX - frame.minX), bottom: 0, trailing: 0)
-            case let (division?, .leading): EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: max(0, frame.maxX - division.frame.minX))
+            case (let division?, _) where division.axis == .horizontal: EdgeInsets(top: max(0, division.frame.maxY - frame.minY), leading: 0, bottom: 0, trailing: 0)
+            case (let division?, .trailing): EdgeInsets(top: 0, leading: max(0, division.frame.maxX - frame.minX), bottom: 0, trailing: 0)
+            case (let division?, .leading): EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: max(0, frame.maxX - division.frame.minX))
             }
         }
     }
