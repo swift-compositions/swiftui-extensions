@@ -9,7 +9,9 @@
             self.ordinal = ordinal
             self.content = content()
         }
+    }
 
+    extension Numbered {
         public var body: some View {
             HStack(alignment: .firstTextBaseline, spacing: 8) {
                 Text(verbatim: "\(ordinal).").monospacedDigit().foregroundStyle(.secondary)

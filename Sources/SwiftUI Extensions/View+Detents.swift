@@ -13,13 +13,15 @@
         let pinned: Bool
         @State private var stand = Stand.smaller
 
-        private var smaller: PresentationDetent { resting.map { .height($0.rounded(.up)) } ?? otherwise }
-
         func body(content: Content) -> some View {
             content
                 .presentationDetents(pinned && stand == .smaller ? [smaller] : [smaller, .large], selection: $stand[dynamicMember: \.[smaller]])
                 .presentationBackgroundInteraction(.enabled(upThrough: smaller))
         }
+    }
+
+    extension RestingDetents {
+        private var smaller: PresentationDetent { resting.map { .height($0.rounded(.up)) } ?? otherwise }
     }
 
     private enum Stand: Hashable {

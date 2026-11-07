@@ -21,7 +21,9 @@
                     frame = $0
                 }
         }
+    }
 
+    extension Displaced {
         private var insets: EdgeInsets {
             switch (division.flatMap { frame.intersects($0.frame) ? $0 : nil }, edge) {
             case (nil, _): EdgeInsets()

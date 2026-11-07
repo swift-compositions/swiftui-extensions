@@ -15,7 +15,9 @@
             self.tint = tint
             self.size = size
         }
+    }
 
+    extension Emblem {
         public static var transferRepresentation: some TransferRepresentation {
             DataRepresentation(exportedContentType: .png) { emblem in try await emblem.png() }
         }

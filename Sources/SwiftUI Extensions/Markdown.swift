@@ -11,7 +11,9 @@
                 Block(id: offset, kinds: run.0?.components.map(\.kind) ?? [], text: AttributedString(document[run.1]))
             }
         }
+    }
 
+    extension Markdown {
         public var body: some View {
             VStack(alignment: .leading, spacing: 14) {
                 ForEach(blocks) { block in
