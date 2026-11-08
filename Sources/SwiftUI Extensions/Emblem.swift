@@ -19,7 +19,7 @@
 
     extension Emblem {
         public static var transferRepresentation: some TransferRepresentation {
-            DataRepresentation(exportedContentType: .png) { emblem in try await emblem.png() }
+            DataRepresentation(exportedContentType: .png) { (emblem: Emblem) in try await emblem.png() }
         }
 
         @MainActor private func png() throws -> Data {
