@@ -3,9 +3,9 @@
     import SwiftUI
     import Testing
 
-enum `Division Tests` {}
+    enum `Division Tests` {}
 
-extension `Division Tests` {
+    extension `Division Tests` {
         @Suite struct `Accessory division` {
             @Test func `a simulated fold runs along the longer side through the center`() {
                 #expect(Division.simulated(in: CGRect(x: 0, y: 0, width: 800, height: 400), width: 40) == Division(frame: CGRect(x: 380, y: 0, width: 40, height: 400), axis: .vertical))
@@ -16,6 +16,6 @@ extension `Division Tests` {
                 #expect(EnvironmentValues().division == nil)
             }
         }
-}
+    }
 
 #endif

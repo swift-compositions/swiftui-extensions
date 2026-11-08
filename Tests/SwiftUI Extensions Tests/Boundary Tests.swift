@@ -5,9 +5,9 @@
     import Testing
     import PDFKit
 
-enum `Boundary Tests` {}
+    enum `Boundary Tests` {}
 
-extension `Boundary Tests` {
+    extension `Boundary Tests` {
         @Suite struct `Accessory division boundaries` {
             @Test func `a square frame divides vertically`() {
                 #expect(Division.simulated(in: CGRect(x: 0, y: 0, width: 400, height: 400), width: 40) == Division(frame: CGRect(x: 180, y: 0, width: 40, height: 400), axis: .vertical))
@@ -21,9 +21,9 @@ extension `Boundary Tests` {
                 #expect(Division.simulated(in: CGRect(x: 0, y: 0, width: 400, height: 800), width: 0) == Division(frame: CGRect(x: 0, y: 400, width: 400, height: 0), axis: .horizontal))
             }
         }
-}
+    }
 
-extension `Boundary Tests` {
+    extension `Boundary Tests` {
         @Suite struct `Paged PDF boundaries` {
             @Test func `no blocks render one blank page`() throws {
                 let document = try #require(PDFDocument(data: [String]().pdf { Text(verbatim: $0) }))
@@ -40,6 +40,6 @@ extension `Boundary Tests` {
                 #expect(document.pageCount == 3)
             }
         }
-}
+    }
 
 #endif

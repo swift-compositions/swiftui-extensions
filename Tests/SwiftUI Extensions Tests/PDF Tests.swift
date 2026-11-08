@@ -5,9 +5,9 @@
     import Testing
     import PDFKit
 
-enum `PDF Tests` {}
+    enum `PDF Tests` {}
 
-extension `PDF Tests` {
+    extension `PDF Tests` {
         @Suite struct `Paged PDF` {
             @Test func `renders blocks as a PDF document`() {
                 #expect(["Memo"].pdf { Text(verbatim: $0) }.starts(with: Data("%PDF".utf8)))
@@ -20,6 +20,6 @@ extension `PDF Tests` {
                 #expect((0..<document.pageCount).compactMap { document.page(at: $0)?.string }.joined(separator: "\n").components(separatedBy: "Paragraph ").count == 61)
             }
         }
-}
+    }
 
 #endif
