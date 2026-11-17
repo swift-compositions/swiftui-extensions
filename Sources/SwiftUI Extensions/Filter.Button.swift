@@ -18,8 +18,12 @@
     extension Filter.Button {
         public var body: some View {
             Toggle(isOn: $isOn) {
-                Label { title } icon: { Image(systemName: "line.3.horizontal.decrease") }
-                    .labelStyle(.iconOnly)
+                Label {
+                    title
+                } icon: {
+                    Image(systemName: "line.3.horizontal.decrease")
+                }
+                .labelStyle(.iconOnly)
             }
             .toggleStyle(.button)
             .contextMenu { menu }
